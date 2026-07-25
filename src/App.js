@@ -22,6 +22,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import { Toaster, toast } from "@/components/ui/sonner";
 import * as Icons from "lucide-react";
+import Employees from "./pages/Employees";
 
 const GOOGLE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbxB1fXiDyfEPSgySoJg7RAIxWTDoPRwKOPzZu7VZWXR3KZodJ7-cu3bSkE8rzJfqw6h/exec";
@@ -34,7 +35,7 @@ const assets = {
   logo: "https://customer-assets.emergentagent.com/job_9999b4e2-e562-4f7d-b65c-b27bad5fffb6/artifacts/7m2ruj3w_brain-with-pencil1.png",
   hero: "https://images.pexels.com/photos/7447263/pexels-photo-7447263.jpeg",
   parent: "https://images.pexels.com/photos/8653951/pexels-photo-8653951.jpeg",
-  team: "https://res.cloudinary.com/hzrnii6l/image/upload/v1783636805/rosalyn-holmes_liomim.png",
+  team: "https://res.cloudinary.com/hzrnii6l/image/upload/v1784964667/B8D8339B-52BC-4555-B900-2472F3F0D8A5_gp5xah.png",
   services: "https://images.pexels.com/photos/4934170/pexels-photo-4934170.jpeg",
   careers: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg",
   about: "https://images.pexels.com/photos/8363095/pexels-photo-8363095.jpeg",
@@ -55,6 +56,7 @@ const navItems = [
   { label: "Insurance", path: "/insurance" },
   { label: "About Us", path: "/about" },
   { label: "Careers", path: "/careers" },
+  { label: "Employees", path: "/employees" },
 ];
 
 const services = [
@@ -1508,7 +1510,9 @@ function AppShell() {
           />
         ))}
         <Route path="/insurance" element={<InsurancePage />} />
+        <Route path="/employees" element={<Employees />} />
         <Route path="/about" element={<AboutPage />} />
+
         <Route path="/careers" element={<Careers />} />
         <Route path="/become-a-client" element={<BecomeClientPage />} />
       </Routes>
