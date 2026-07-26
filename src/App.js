@@ -884,13 +884,9 @@ function useLeadForm(kind) {
       };
 
       await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8",
-        },
-        body: JSON.stringify(payload),
-      });
+  method: "POST",
+  body: JSON.stringify(application),
+});
 
       toast.success("Thank you — your message was received.", {
         description: "Our team will follow up with next steps soon.",
@@ -1257,7 +1253,1287 @@ const openPositions = [
       "Provide one-on-one ABA services to children in home and community settings while working under the supervision of a BCBA.",
   },
 ];
+function CareerApplicationWizard() {
+  const steps = [
+  "Contact Information",
+  "Minimum Qualifications",
+  "Experience",
+  "Availability",
+  "Service Area & Travel",
+  "Professional Expectations",
+  "References",
+  "Certification",
+  "Review",
+];
 
+  const [currentStep, setCurrentStep] = useState(1);
+  const [validationError, setValidationError] = useState("");
+  const [showValidationErrors, setShowValidationErrors] = useState(false);
+  const [application, setApplication] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    city: "",
+    linkedin: "",
+    bacbNumber: "",
+    over18: "",
+    education: "",
+    workAuthorized: "",
+    sponsorshipRequired: "",
+    reliableTransportation: "",
+    licenseAndInsurance: "",
+    backgroundCheckConsent: "",
+    position: "Registered Behavior Technician",
+    rbtStatus: "",
+    abaExperience: "",
+    experienceSummary: "",
+    weekdayAvailability: "",
+    weekendAvailability: "",
+    transportation: "",
+    availableDays: [],
+    availableTimes: [],
+    serviceAreas: [],
+    workSettings: [],
+    clientNeeds: [],
+    certificationStatements: [],
+    preferredHours: "",
+    startAvailability: "",
+    consistentSchedule: "",
+    maximumDrive: "",
+    independentWork: "",
+    documentation: "",
+    feedback: "",
+    attendance: "",
+    reference1Name: "",
+    reference1Relationship: "",
+    reference1Email: "",
+    reference1Phone: "",
+    reference2Name: "",
+    reference2Relationship: "",
+    reference2Email: "",
+    reference2Phone: "",
+    certifyTruthfulness: false,
+    certifyBackground: false,
+    certifyPolicies: false,
+
+electronicSignature: "",
+    consent: false,
+  });
+
+  const updateApplication = (event) => {
+  const { name, value, type, checked } = event.target;
+
+  setApplication((current) => {
+    if (type === "checkbox" && Array.isArray(current[name])) {
+      return {
+        ...current,
+        [name]: checked
+          ? [...current[name], value]
+          : current[name].filter((item) => item !== value),
+      };
+    }
+
+    return {
+      ...current,
+      [name]: type === "checkbox" ? checked : value,
+    };
+  });
+};
+const validateCurrentStep = () => {
+  switch (currentStep) {
+    case 1:
+      return (
+        application.firstName.trim() &&
+        application.lastName.trim() &&
+        application.email.trim() &&
+        application.phone.trim() &&
+        application.city.trim()
+      );
+
+    case 2:
+      return (
+        application.rbtStatus &&
+        application.over18 &&
+        application.education &&
+        application.workAuthorized &&
+        application.sponsorshipRequired &&
+        application.reliableTransportation &&
+        application.licenseAndInsurance &&
+        application.backgroundCheckConsent
+      );
+
+    case 3:
+      return (
+        application.abaExperience &&
+        application.workSettings.length > 0 &&
+        application.clientNeeds.length > 0 &&
+        application.experienceSummary.trim()
+      );
+
+    case 4:
+      return (
+        application.availableDays.length > 0 &&
+        application.availableTimes.length > 0 &&
+        application.preferredHours &&
+        application.startAvailability &&
+        application.consistentSchedule
+      );
+
+    case 5:
+      return (
+        application.serviceAreas.length > 0 &&
+        application.maximumDrive
+      );
+
+    case 6:
+      return (
+        application.independentWork &&
+        application.documentation &&
+        application.feedback &&
+        application.attendance
+      );
+
+    case 7:
+      return (
+        application.reference1Name.trim() &&
+        application.reference1Relationship.trim() &&
+        application.reference1Email.trim() &&
+        application.reference1Phone.trim() &&
+        application.reference2Name.trim() &&
+        application.reference2Relationship.trim() &&
+        application.reference2Email.trim() &&
+        application.reference2Phone.trim()
+      );
+
+    case 8:
+      return (
+        application.certifyTruthfulness &&
+        application.certifyBackground &&
+        application.certifyPolicies &&
+        application.electronicSignature.trim()
+      );
+
+    default:
+      return true;
+  }
+};
+const fieldHasError = (fieldName) => {
+  if (!showValidationErrors) {
+    return false;
+  }
+
+  const value = application[fieldName];
+
+  if (Array.isArray(value)) {
+    return value.length === 0;
+  }
+
+  if (typeof value === "boolean") {
+    return value === false;
+  }
+
+  return !value || !String(value).trim();
+};
+  const goNext = () => {
+  setShowValidationErrors(true);
+
+  if (!validateCurrentStep()) {
+    setValidationError("Please complete all required fields before continuing.");
+    return;
+  }
+
+  setValidationError("");
+  setShowValidationErrors(false);
+
+  if (currentStep < steps.length) {
+    setCurrentStep((step) => step + 1);
+  }
+};
+
+  const goBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep((step) => step - 1);
+    }
+  };
+const submitApplication = async () => {
+  try {
+    await fetch(
+      "https://script.google.com/macros/s/AKfycby-dOKvpD5oBIqOfwN3D_OOzu2W6lf8dLLfFHLlpZS4ISnBsBw3w3ldHQo4mbBadNMbwA/exec",
+      {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+        body: JSON.stringify(application),
+      }
+    );
+
+    toast.success("Application submitted successfully!", {
+      description:
+        "Thank you for applying. We have received your application.",
+    });
+  } catch (error) {
+    console.error(error);
+
+    toast.error("Submission failed", {
+      description: "Unable to connect to the application server.",
+    });
+  }
+};
+  const progressPercent = (currentStep / steps.length) * 100;
+
+  return (
+    <div className="overflow-hidden rounded-[2rem] bg-white shadow-2xl shadow-navy/10">
+      <div className="bg-navy px-6 py-8 text-white md:px-10">
+        <p className="text-sm font-bold uppercase tracking-[0.2em] text-gold">
+          Employment Application
+        </p>
+
+        <h2 className="mt-3 font-display text-3xl font-semibold">
+          Join the Au-Some Teacher team
+        </h2>
+
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/70">
+          Complete the application below. Your information will be saved as you
+          move through each section.
+        </p>
+      </div>
+
+      <div className="border-b border-navy/10 px-6 py-6 md:px-10">
+        <div className="mb-3 flex items-center justify-between">
+          <p className="text-sm font-bold text-navy">
+            Step {currentStep} of {steps.length}
+          </p>
+
+          <p className="text-sm text-navy/60">
+            {steps[currentStep - 1]}
+          </p>
+        </div>
+
+        <div className="h-3 overflow-hidden rounded-full bg-slate">
+          <div
+            className="h-full rounded-full bg-teal transition-all duration-300"
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
+      </div>
+
+      <div className="px-6 py-8 md:px-10">
+        {validationError && (
+  <div className="mb-6 rounded-2xl border border-red-300 bg-red-50 p-4">
+    <p className="text-sm font-medium text-red-700">
+      {validationError}
+    </p>
+  </div>
+)}
+        {currentStep === 1 && (
+  <div>
+    <h3 className="font-display text-2xl font-semibold text-navy">
+      Contact Information
+    </h3>
+
+    <p className="mt-2 text-sm text-navy/65">
+      Enter the information that we should use throughout the hiring process.
+    </p>
+
+    <div className="mt-7 grid gap-5 sm:grid-cols-2">
+      <div className="space-y-2">
+        <Label htmlFor="career-first-name">
+          First name <span className="text-red-600">*</span>
+        </Label>
+
+        <Input
+          id="career-first-name"
+          name="firstName"
+          value={application.firstName}
+          onChange={updateApplication}
+          required
+          className={`h-12 rounded-2xl bg-slate ${
+  fieldHasError("firstName")
+    ? "border-red-500 ring-2 ring-red-200"
+    : "border-navy/10"
+}`}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="career-last-name">
+          Last name <span className="text-red-600">*</span>
+        </Label>
+
+        <Input
+          id="career-last-name"
+          name="lastName"
+          value={application.lastName}
+          onChange={updateApplication}
+          required
+          className="h-12 rounded-2xl border-navy/10 bg-slate"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="career-email">
+          Email address <span className="text-red-600">*</span>
+        </Label>
+
+        <Input
+          id="career-email"
+          name="email"
+          type="email"
+          value={application.email}
+          onChange={updateApplication}
+          required
+          className="h-12 rounded-2xl border-navy/10 bg-slate"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="career-phone">
+          Mobile phone number <span className="text-red-600">*</span>
+        </Label>
+
+        <Input
+          id="career-phone"
+          name="phone"
+          type="tel"
+          value={application.phone}
+          onChange={updateApplication}
+          required
+          className="h-12 rounded-2xl border-navy/10 bg-slate"
+        />
+      </div>
+
+      <div className="space-y-2 sm:col-span-2">
+        <Label htmlFor="career-city">
+          City and ZIP code <span className="text-red-600">*</span>
+        </Label>
+
+        <Input
+          id="career-city"
+          name="city"
+          value={application.city}
+          onChange={updateApplication}
+          placeholder="Spring, TX 77386"
+          required
+          className="h-12 rounded-2xl border-navy/10 bg-slate"
+        />
+
+        <p className="text-xs text-navy/55">
+          Do not enter your full street address.
+        </p>
+      </div>
+
+      <div className="space-y-2 sm:col-span-2">
+        <Label htmlFor="career-linkedin">
+          LinkedIn profile or professional website
+          <span className="ml-1 text-xs font-normal text-navy/50">
+            Optional
+          </span>
+        </Label>
+
+        <Input
+          id="career-linkedin"
+          name="linkedin"
+          type="url"
+          value={application.linkedin || ""}
+          onChange={updateApplication}
+          placeholder="https://www.linkedin.com/in/your-profile"
+          className="h-12 rounded-2xl border-navy/10 bg-slate"
+        />
+      </div>
+    </div>
+  </div>
+)}
+        {currentStep === 2 && (
+  <div>
+    <h3 className="font-display text-2xl font-semibold text-navy">
+      Minimum Qualifications
+    </h3>
+
+    <p className="mt-2 text-sm text-navy/65">
+      These questions help determine whether the position matches your current qualifications.
+    </p>
+
+    <div className="mt-7 grid gap-5">
+
+      <div className="space-y-2">
+        <Label>Are you currently certified as a Registered Behavior Technician through the BACB? *</Label>
+
+        <select
+          name="rbtStatus"
+          value={application.rbtStatus}
+          onChange={updateApplication}
+          className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4"
+        >
+          <option value="">Select one</option>
+          <option>Yes, my certification is active</option>
+          <option>My certification is inactive or expired</option>
+          <option>I completed the 40-hour course but have not passed the exam</option>
+          <option>No, I am not currently certified</option>
+        </select>
+      </div>
+
+      <div className="space-y-2">
+        <Label>BACB certification number</Label>
+
+        <Input
+          name="bacbNumber"
+          value={application.bacbNumber || ""}
+          onChange={updateApplication}
+          placeholder="RBT-24-348734"
+          className="h-12 rounded-2xl border-navy/10 bg-slate"
+        />
+
+        <p className="text-xs text-navy/55">
+          Leave blank if you are not currently certified.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <Label>Are you at least 18 years old? *</Label>
+
+        <select
+          name="over18"
+          value={application.over18 || ""}
+          onChange={updateApplication}
+          className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4"
+        >
+          <option value="">Select one</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+
+      <div className="space-y-2">
+        <Label>Highest completed education *</Label>
+
+        <select
+          name="education"
+          value={application.education || ""}
+          onChange={updateApplication}
+          className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4"
+        >
+          <option value="">Select one</option>
+          <option>High school diploma or GED</option>
+          <option>Some college</option>
+          <option>Associate degree</option>
+          <option>Bachelor's degree</option>
+          <option>Graduate degree</option>
+          <option>I have not completed high school or a GED</option>
+        </select>
+      </div>
+          <div className="space-y-2">
+  <Label>Are you legally authorized to work in the United States? *</Label>
+
+  <select
+    name="workAuthorized"
+    value={application.workAuthorized || ""}
+    onChange={updateApplication}
+    className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4"
+  >
+    <option value="">Select one</option>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
+</div>
+
+<div className="space-y-2">
+  <Label>Will you now or in the future require employment sponsorship? *</Label>
+
+  <select
+    name="sponsorshipRequired"
+    value={application.sponsorshipRequired || ""}
+    onChange={updateApplication}
+    className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4"
+  >
+    <option value="">Select one</option>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
+</div>
+
+<div className="space-y-2">
+  <Label>Do you have reliable transportation to travel between client locations? *</Label>
+
+  <select
+    name="reliableTransportation"
+    value={application.reliableTransportation || ""}
+    onChange={updateApplication}
+    className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4"
+  >
+    <option value="">Select one</option>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
+</div>
+
+<div className="space-y-2">
+  <Label>Do you have a valid driver's license and current automobile insurance? *</Label>
+
+  <select
+    name="licenseAndInsurance"
+    value={application.licenseAndInsurance || ""}
+    onChange={updateApplication}
+    className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4"
+  >
+    <option value="">Select one</option>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
+</div>
+
+<div className="space-y-2">
+  <Label>Are you willing to complete all required background checks? *</Label>
+
+  <select
+    name="backgroundCheckConsent"
+    value={application.backgroundCheckConsent || ""}
+    onChange={updateApplication}
+    className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4"
+  >
+    <option value="">Select one</option>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
+</div>
+    </div>
+  </div>
+)}
+
+        {currentStep === 3 && (
+  <div>
+    <h3 className="font-display text-2xl font-semibold text-navy">
+      Experience
+    </h3>
+
+    <p className="mt-2 text-sm text-navy/65">
+      Tell us about your relevant professional experience.
+    </p>
+
+    <div className="mt-7 grid gap-5">
+
+      <div className="space-y-2">
+        <Label>
+          How much direct ABA or RBT experience do you have? *
+        </Label>
+
+        <select
+          name="abaExperience"
+          value={application.abaExperience}
+          onChange={updateApplication}
+          className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4"
+        >
+          <option value="">Select one</option>
+          <option>No direct ABA experience</option>
+          <option>Less than 6 months</option>
+          <option>6–11 months</option>
+          <option>1–2 years</option>
+          <option>3–4 years</option>
+          <option>5 or more years</option>
+        </select>
+      </div>
+
+      <div className="space-y-2">
+        <Label>
+          Which settings have you worked in? *
+        </Label>
+
+        <Textarea
+          name="workSettings"
+          value={application.workSettings || ""}
+          onChange={updateApplication}
+          placeholder="Example: In-home ABA, Clinic, Public School"
+          className="min-h-24 rounded-2xl border-navy/10 bg-slate"
+        />
+
+        <p className="text-xs text-navy/55">
+          Separate multiple settings with commas.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <Label>
+          Which client needs have you supported? *
+        </Label>
+
+        <Textarea
+          name="clientNeeds"
+          value={application.clientNeeds || ""}
+          onChange={updateApplication}
+          placeholder="Example: Early learners, Social skills, Aggression"
+          className="min-h-24 rounded-2xl border-navy/10 bg-slate"
+        />
+
+        <p className="text-xs text-navy/55">
+          Separate multiple selections with commas.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <Label>
+          Briefly describe your experience working with children or individuals with developmental disabilities. *
+        </Label>
+
+        <Textarea
+          name="experienceSummary"
+          value={application.experienceSummary}
+          onChange={updateApplication}
+          className="min-h-40 rounded-2xl border-navy/10 bg-slate"
+        />
+      </div>
+
+    </div>
+  </div>
+)}      
+        {currentStep === 4 && (
+  <div>
+    <h3 className="font-display text-2xl font-semibold text-navy">
+      Availability
+    </h3>
+
+    <p className="mt-2 text-sm text-navy/65">
+      Our greatest need is generally during after-school and evening hours.
+    </p>
+
+    <div className="mt-7 grid gap-7">
+      <div className="space-y-3">
+        <Label>
+          Which days are you regularly available? *
+        </Label>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          {[
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+          ].map((day) => (
+            <label
+              key={day}
+              className="flex items-center gap-3 rounded-2xl border border-navy/10 bg-slate p-4"
+            >
+              <input
+                type="checkbox"
+                name="availableDays"
+                value={day}
+                checked={application.availableDays.includes(day)}
+                onChange={updateApplication}
+                className="h-4 w-4"
+              />
+
+              <span className="text-sm text-navy">
+                {day}
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <Label>
+          Which time periods are you regularly available? *
+        </Label>
+
+        <div className="grid gap-3">
+          {[
+            "Weekday mornings",
+            "Weekday afternoons before 3:00 PM",
+            "Weekday afternoons from 3:00–5:00 PM",
+            "Weekday evenings from 5:00–8:00 PM",
+            "Saturday mornings",
+            "Saturday afternoons",
+            "Sunday",
+          ].map((timePeriod) => (
+            <label
+              key={timePeriod}
+              className="flex items-center gap-3 rounded-2xl border border-navy/10 bg-slate p-4"
+            >
+              <input
+                type="checkbox"
+                name="availableTimes"
+                value={timePeriod}
+                checked={application.availableTimes.includes(timePeriod)}
+                onChange={updateApplication}
+                className="h-4 w-4"
+              />
+
+              <span className="text-sm text-navy">
+                {timePeriod}
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label>
+          How many hours per week are you seeking? *
+        </Label>
+
+        <select
+          name="preferredHours"
+          value={application.preferredHours || ""}
+          onChange={updateApplication}
+          className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4 text-sm text-navy"
+        >
+          <option value="">Select one</option>
+          <option>Fewer than 10 hours</option>
+          <option>10–15 hours</option>
+          <option>16–20 hours</option>
+          <option>21–25 hours</option>
+          <option>More than 25 hours</option>
+        </select>
+      </div>
+
+      <div className="space-y-2">
+        <Label>
+          When could you begin working? *
+        </Label>
+
+        <select
+          name="startAvailability"
+          value={application.startAvailability || ""}
+          onChange={updateApplication}
+          className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4 text-sm text-navy"
+        >
+          <option value="">Select one</option>
+          <option>Immediately</option>
+          <option>Within one week</option>
+          <option>Within two weeks</option>
+          <option>Within 30 days</option>
+          <option>More than 30 days from now</option>
+        </select>
+      </div>
+
+      <div className="space-y-2">
+        <Label>
+          Are you able to maintain a consistent weekly schedule for at least six months? *
+        </Label>
+
+        <select
+          name="consistentSchedule"
+          value={application.consistentSchedule || ""}
+          onChange={updateApplication}
+          className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4 text-sm text-navy"
+        >
+          <option value="">Select one</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Unsure</option>
+        </select>
+      </div>
+    </div>
+  </div>
+)}
+
+        {currentStep === 5 && (
+  <div>
+    <h3 className="font-display text-2xl font-semibold text-navy">
+      Service Area & Travel
+    </h3>
+
+    <p className="mt-2 text-sm text-navy/65">
+      RBT services are provided at client homes and community locations.
+    </p>
+
+    <div className="mt-7 grid gap-7">
+      <div className="space-y-3">
+        <Label>
+          Which areas are you willing to serve? *
+        </Label>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          {[
+            "Spring",
+            "Klein",
+            "The Woodlands",
+            "Shenandoah",
+            "Humble",
+            "Conroe",
+            "Other nearby area",
+          ].map((area) => (
+            <label
+              key={area}
+              className="flex items-center gap-3 rounded-2xl border border-navy/10 bg-slate p-4"
+            >
+              <input
+                type="checkbox"
+                name="serviceAreas"
+                value={area}
+                checked={application.serviceAreas.includes(area)}
+                onChange={updateApplication}
+                className="h-4 w-4"
+              />
+
+              <span className="text-sm text-navy">
+                {area}
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label>
+          What is the maximum one-way drive you are normally willing to make? *
+        </Label>
+
+        <select
+          name="maximumDrive"
+          value={application.maximumDrive || ""}
+          onChange={updateApplication}
+          className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4 text-sm text-navy"
+        >
+          <option value="">Select one</option>
+          <option>Up to 10 miles</option>
+          <option>Up to 15 miles</option>
+          <option>Up to 20 miles</option>
+          <option>Up to 25 miles</option>
+          <option>More than 25 miles</option>
+        </select>
+      </div>
+    </div>
+  </div>
+)}
+        {currentStep === 6 && (
+  <div>
+    <h3 className="font-display text-2xl font-semibold text-navy">
+      Professional Expectations
+    </h3>
+
+    <p className="mt-2 text-sm text-navy/65">
+      These questions help us understand how you approach professional responsibilities.
+    </p>
+
+    <div className="mt-7 grid gap-5">
+
+      <div className="space-y-2">
+        <Label>
+          Are you comfortable working independently in client homes while receiving BCBA supervision? *
+        </Label>
+
+        <select
+          name="independentWork"
+          value={application.independentWork || ""}
+          onChange={updateApplication}
+          className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4"
+        >
+          <option value="">Select one</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>I would like more information</option>
+        </select>
+      </div>
+
+      <div className="space-y-2">
+        <Label>
+          Are you able to complete session documentation accurately and on time? *
+        </Label>
+
+        <select
+          name="documentation"
+          value={application.documentation || ""}
+          onChange={updateApplication}
+          className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4"
+        >
+          <option value="">Select one</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>I would need training</option>
+        </select>
+      </div>
+
+      <div className="space-y-2">
+        <Label>
+          Are you comfortable receiving corrective feedback and performance coaching? *
+        </Label>
+
+        <select
+          name="feedback"
+          value={application.feedback || ""}
+          onChange={updateApplication}
+          className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4"
+        >
+          <option value="">Select one</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Unsure</option>
+        </select>
+      </div>
+
+      <div className="space-y-2">
+        <Label>
+          Do you understand that consistent attendance is essential because clients depend on regularly scheduled services? *
+        </Label>
+
+        <select
+          name="attendance"
+          value={application.attendance || ""}
+          onChange={updateApplication}
+          className="h-12 w-full rounded-2xl border border-navy/10 bg-slate px-4"
+        >
+          <option value="">Select one</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+)}
+        {currentStep === 7 && (
+  <div>
+    <h3 className="font-display text-2xl font-semibold text-navy">
+      Professional References
+    </h3>
+
+    <p className="mt-2 text-sm text-navy/65">
+      Please provide two professional references who can speak to your work,
+      reliability, and professionalism.
+    </p>
+
+    <div className="mt-7 grid gap-8">
+      <div className="rounded-3xl border border-navy/10 bg-slate/60 p-5">
+        <h4 className="font-semibold text-navy">Reference 1</h4>
+
+        <div className="mt-5 grid gap-5 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label>Full name *</Label>
+            <Input
+              name="reference1Name"
+              value={application.reference1Name || ""}
+              onChange={updateApplication}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Relationship *</Label>
+            <Input
+              name="reference1Relationship"
+              value={application.reference1Relationship || ""}
+              onChange={updateApplication}
+              placeholder="Supervisor, professor, coworker, etc."
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Email address *</Label>
+            <Input
+              type="email"
+              name="reference1Email"
+              value={application.reference1Email || ""}
+              onChange={updateApplication}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Phone number *</Label>
+            <Input
+              type="tel"
+              name="reference1Phone"
+              value={application.reference1Phone || ""}
+              onChange={updateApplication}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-3xl border border-navy/10 bg-slate/60 p-5">
+        <h4 className="font-semibold text-navy">Reference 2</h4>
+
+        <div className="mt-5 grid gap-5 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label>Full name *</Label>
+            <Input
+              name="reference2Name"
+              value={application.reference2Name || ""}
+              onChange={updateApplication}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Relationship *</Label>
+            <Input
+              name="reference2Relationship"
+              value={application.reference2Relationship || ""}
+              onChange={updateApplication}
+              placeholder="Supervisor, professor, coworker, etc."
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Email address *</Label>
+            <Input
+              type="email"
+              name="reference2Email"
+              value={application.reference2Email || ""}
+              onChange={updateApplication}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Phone number *</Label>
+            <Input
+              type="tel"
+              name="reference2Phone"
+              value={application.reference2Phone || ""}
+              onChange={updateApplication}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+        {currentStep === 8 && (
+  <div>
+    <h3 className="font-display text-2xl font-semibold text-navy">
+      Applicant Certification
+    </h3>
+
+    <p className="mt-2 text-sm text-navy/65">
+      Please review the statements below before submitting your application.
+    </p>
+
+    <div className="mt-7 space-y-4">
+
+      <label className="flex items-start gap-3 rounded-2xl border border-navy/10 bg-slate p-5">
+        <input
+          type="checkbox"
+          name="certifyTruthfulness"
+          checked={application.certifyTruthfulness || false}
+          onChange={updateApplication}
+          className="mt-1"
+        />
+        <span className="text-sm text-navy">
+          I certify that all information provided in this application is true
+          and complete to the best of my knowledge.
+        </span>
+      </label>
+
+      <label className="flex items-start gap-3 rounded-2xl border border-navy/10 bg-slate p-5">
+        <input
+          type="checkbox"
+          name="certifyBackground"
+          checked={application.certifyBackground || false}
+          onChange={updateApplication}
+          className="mt-1"
+        />
+        <span className="text-sm text-navy">
+          I understand that employment may be contingent upon successful
+          completion of background screening and verification of credentials.
+        </span>
+      </label>
+
+      <label className="flex items-start gap-3 rounded-2xl border border-navy/10 bg-slate p-5">
+        <input
+          type="checkbox"
+          name="certifyPolicies"
+          checked={application.certifyPolicies || false}
+          onChange={updateApplication}
+          className="mt-1"
+        />
+        <span className="text-sm text-navy">
+          I understand that if hired, I will be expected to comply with all
+          company policies, HIPAA requirements, and BACB ethics standards.
+        </span>
+      </label>
+
+      <div className="space-y-2">
+        <Label>Electronic Signature *</Label>
+
+        <Input
+          name="electronicSignature"
+          value={application.electronicSignature || ""}
+          onChange={updateApplication}
+          placeholder="Type your full legal name"
+        />
+      </div>
+
+    </div>
+  </div>
+)}
+        {currentStep === 9 && (
+  <div>
+    <h3 className="font-display text-2xl font-semibold text-navy">
+      Review Your Application
+    </h3>
+
+    <p className="mt-2 text-sm text-navy/65">
+      Please review your information before submitting.
+    </p>
+
+    <div className="mt-7 grid gap-6">
+      {[
+        {
+          title: "Contact Information",
+          items: [
+            ["Name", `${application.firstName} ${application.lastName}`],
+            ["Email", application.email],
+            ["Phone", application.phone],
+            ["City and ZIP", application.cityZip],
+            ["LinkedIn or Website", application.linkedin],
+          ],
+        },
+        {
+          title: "Minimum Qualifications",
+          items: [
+            ["RBT Status", application.rbtStatus],
+            ["BACB Number", application.bacbNumber],
+            ["Age 18 or Older", application.over18],
+            ["Education", application.education],
+            ["Authorized to Work", application.workAuthorized],
+            ["Sponsorship Required", application.sponsorshipRequired],
+            ["Reliable Transportation", application.reliableTransportation],
+            ["License and Insurance", application.licenseAndInsurance],
+            ["Background Check Consent", application.backgroundCheckConsent],
+          ],
+        },
+        {
+          title: "Experience",
+          items: [
+            ["ABA Experience", application.abaExperience],
+            ["Work Settings",
+  Array.isArray(application.workSettings)
+    ? application.workSettings.join(", ")
+    : application.workSettings || ""
+],
+
+["Client Needs",
+  Array.isArray(application.clientNeeds)
+    ? application.clientNeeds.join(", ")
+    : application.clientNeeds || ""
+],
+            ["Experience Summary", application.experienceSummary],
+          ],
+        },
+        {
+          title: "Availability",
+          items: [
+            ["Available Days", application.availableDays?.join(", ")],
+            ["Available Times", application.availableTimes?.join(", ")],
+            ["Preferred Hours", application.preferredHours],
+            ["Start Availability", application.startAvailability],
+            ["Consistent Schedule", application.consistentSchedule],
+          ],
+        },
+        {
+          title: "Service Area & Travel",
+          items: [
+            ["Service Areas", application.serviceAreas?.join(", ")],
+            ["Maximum Drive", application.maximumDrive],
+          ],
+        },
+        {
+          title: "Professional Expectations",
+          items: [
+            ["Independent Work", application.independentWork],
+            ["Documentation", application.documentation],
+            ["Feedback and Coaching", application.feedback],
+            ["Attendance Understanding", application.attendance],
+          ],
+        },
+        {
+          title: "Professional References",
+          items: [
+            ["Reference 1", application.reference1Name],
+            ["Relationship", application.reference1Relationship],
+            ["Email", application.reference1Email],
+            ["Phone", application.reference1Phone],
+            ["Reference 2", application.reference2Name],
+            ["Relationship", application.reference2Relationship],
+            ["Email", application.reference2Email],
+            ["Phone", application.reference2Phone],
+          ],
+        },
+        {
+          title: "Certification",
+          items: [
+            [
+              "Information Certified",
+              application.certifyTruthfulness ? "Yes" : "No",
+            ],
+            [
+              "Background Screening Acknowledged",
+              application.certifyBackground ? "Yes" : "No",
+            ],
+            [
+              "Policies Acknowledged",
+              application.certifyPolicies ? "Yes" : "No",
+            ],
+            ["Electronic Signature", application.electronicSignature],
+          ],
+        },
+      ].map((section) => (
+        <div
+          key={section.title}
+          className="rounded-3xl border border-navy/10 bg-slate/60 p-5"
+        >
+          <h4 className="font-semibold text-navy">
+            {section.title}
+          </h4>
+
+          <div className="mt-4 grid gap-3">
+            {section.items.map(([label, value], index) => (
+              <div
+                key={`${section.title}-${label}-${index}`}
+                className="grid gap-1 border-b border-navy/10 pb-3 last:border-b-0 last:pb-0 sm:grid-cols-[190px_1fr]"
+              >
+                <span className="text-sm font-medium text-navy/70">
+                  {label}
+                </span>
+
+                <span className="text-sm text-navy">
+                  {value || "Not provided"}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+        <div className="mt-10 flex items-center justify-between gap-4 border-t border-navy/10 pt-6">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={goBack}
+            disabled={currentStep === 1}
+            className="rounded-full border-navy/15 px-7 py-6 font-bold text-navy"
+          >
+            Previous
+          </Button>
+
+          {currentStep < steps.length ? (
+            <Button
+              type="button"
+              onClick={goNext}
+              className="rounded-full bg-teal px-7 py-6 font-bold text-white hover:bg-teal-dark"
+            >
+              Continue
+              <Icons.ArrowRight className="h-4 w-4" />
+            </Button>
+          ) : (
+            <Button
+  type="button"
+  onClick={submitApplication}
+disabled={!validateCurrentStep()}  className="rounded-full bg-teal px-7 py-6 font-bold text-white hover:bg-teal-dark"
+>
+  Submit Application
+</Button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 function Careers() {
   return (
     <main className="careers-page">
@@ -1391,30 +2667,9 @@ function Careers() {
         </div>
       </section>
 
-      <section className="careers-application-section" id="apply">
+            <section className="careers-application-section" id="apply">
         <div className="careers-container">
-          <div className="careers-application-card">
-            <div>
-              <p className="careers-eyebrow careers-eyebrow-light">
-                START YOUR APPLICATION
-              </p>
-
-              <h2>Ready to join the Au-Some Teacher team?</h2>
-
-              <p>
-                Tell us about your experience, availability, and interest in
-                supporting children and families through high-quality ABA
-                services.
-              </p>
-            </div>
-
-            <a
-              className="careers-button careers-button-light"
-              href="mailto:info@au-someteacher.com?subject=RBT%20Application"
-            >
-              Start Your Application
-            </a>
-          </div>
+          <CareerApplicationWizard />
         </div>
       </section>
     </main>
@@ -1529,5 +2784,4 @@ function App() {
     </HashRouter>
   );
 }
-
 export default App;
