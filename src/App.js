@@ -40,7 +40,7 @@ const assets = {
   careers: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg",
   about: "https://images.pexels.com/photos/8363095/pexels-photo-8363095.jpeg",
 };
-const HIRING_OPEN = false;
+const HIRING_OPEN = true;
 
 const serviceAreas = [
   "Spring",
