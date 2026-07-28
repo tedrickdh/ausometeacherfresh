@@ -319,6 +319,10 @@ html {
 .careers-application-section {
   padding: 86px 0;
   background: #ffffff;
+  scroll-margin-top: 110px;
+}
+.careers-positions-section {
+  scroll-margin-top: 110px;
 }
 
 .careers-application-card {
@@ -435,4 +439,32 @@ html {
   .careers-button-light {
     width: 100%;
   }
+  .careers-empty-state {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+
+.careers-empty-state h2 {
+  font-size: 2rem;
+  color: #1e3a8a;
+  margin-bottom: 20px;
+}
+
+.careers-empty-state p {
+  font-size: 1.1rem;
+  color: #4b5563;
+  line-height: 1.8;
+  max-width: 650px;
+  margin: 0 auto 30px;
+}
+
+.careers-empty-state strong {
+  color: #111827;
+}
 }

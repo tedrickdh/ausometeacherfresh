@@ -40,6 +40,7 @@ const assets = {
   careers: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg",
   about: "https://images.pexels.com/photos/8363095/pexels-photo-8363095.jpeg",
 };
+const HIRING_OPEN = false;
 
 const serviceAreas = [
   "Spring",
@@ -2535,6 +2536,7 @@ disabled={!validateCurrentStep()}  className="rounded-full bg-teal px-7 py-6 fon
   );
 }
 function Careers() {
+  const [showApplication, setShowApplication] = useState(false);
   return (
     <main className="careers-page">
       <section className="careers-hero">
@@ -2558,18 +2560,35 @@ function Careers() {
             </div>
 
             <div className="careers-actions">
-              <a className="careers-button careers-button-primary" href="#apply">
-                Apply Now
-              </a>
+  <button
+  className="careers-button careers-button-primary"
+  onClick={() => {
+    document
+      .getElementById("open-positions")
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+  }}
+>
+  Apply
+</button>
 
-              <a
-                className="careers-button careers-button-secondary"
-                href="#open-positions"
-              >
-                View Open Positions
-              </a>
-            </div>
-          </div>
+  {HIRING_OPEN && (
+    <button
+      type="button"
+      className="careers-button careers-button-secondary"
+      onClick={() =>
+        document
+          .getElementById("open-positions")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" })
+      }
+    >
+      View Open Positions
+    </button>
+  )}
+</div>
+</div>
 
           <div className="careers-hero-image-wrapper">
             <img
@@ -2611,7 +2630,7 @@ function Careers() {
           </div>
         </div>
       </section>
-
+    {HIRING_OPEN ? (
       <section
         className="careers-positions-section"
         id="open-positions"
@@ -2655,24 +2674,56 @@ function Careers() {
                   </div>
                 </div>
 
-                <a
-                  className="careers-button careers-button-primary"
-                  href="#apply"
-                >
-                  Apply for This Role
-                </a>
+                <button
+  type="button"
+  className="careers-button careers-button-primary"
+  onClick={() => setShowApplication(true)}
+>
+  Apply for This Role
+</button>
               </article>
             ))}
           </div>
         </div>
       </section>
+) : (
+  <section
+  id="open-positions"
+  className="careers-positions-section"
+>
+    <div className="careers-container">
+      <div className="careers-empty-state">
+        <div style={{ fontSize: "4rem", marginBottom: "20px" }}>💙</div>
 
-            <section className="careers-application-section" id="apply">
-        <div className="careers-container">
-          <CareerApplicationWizard />
-        </div>
-      </section>
-    </main>
+<h2>Thank You for Your Interest</h2>
+
+<h3
+  style={{
+    color: "#6b7280",
+    marginTop: "-10px",
+    marginBottom: "24px",
+  }}
+>
+  We're Not Hiring Right Now
+</h3>
+        <p>
+          Thank you for your interest in joining Au-Some Teacher ABA.
+          We do not have any open positions at this time, but we're always
+          growing and encourage you to check back soon for future opportunities.
+        </p>
+      </div>
+    </div>
+  </section>
+)}
+          
+  {showApplication && (
+  <section className="careers-application-section" id="apply">
+    <div className="careers-container">
+      <CareerApplicationWizard />
+    </div>
+  </section>
+)}
+</main>
   );
 }
 
