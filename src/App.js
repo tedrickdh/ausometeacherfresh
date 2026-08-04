@@ -892,7 +892,9 @@ function useLeadForm(kind) {
   },
   body: JSON.stringify(payload),
 });
-
+if (typeof window.fbq === "function") {
+  window.fbq("track", "Lead");
+}
       toast.success("Thank you — your message was received.", {
         description: "Our team will follow up with next steps soon.",
       });
