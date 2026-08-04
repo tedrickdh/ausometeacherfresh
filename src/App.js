@@ -886,7 +886,11 @@ function useLeadForm(kind) {
 
       await fetch(GOOGLE_SCRIPT_URL, {
   method: "POST",
-  body: JSON.stringify(application),
+  mode: "no-cors",
+  headers: {
+    "Content-Type": "text/plain;charset=utf-8",
+  },
+  body: JSON.stringify(payload),
 });
 
       toast.success("Thank you — your message was received.", {
