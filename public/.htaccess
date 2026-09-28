@@ -20,5 +20,6 @@
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  RewriteRule ^ index.html [L]
+  # Unknown URLs must be real 404s instead of duplicate home pages.
+  RewriteRule ^ - [R=404,L]
 </IfModule>
