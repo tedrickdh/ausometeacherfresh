@@ -1,0 +1,69 @@
+{
+  "/": {
+    "title": "In-Home ABA Therapy in Spring, TX | Au-Some Teacher",
+    "description": "BCBA-led in-home ABA therapy, parent training, and assessments for families in Spring, Klein, The Woodlands, Conroe, Humble, and nearby North Houston communities.",
+    "heading": "In-home ABA therapy for families in Spring and North Houston",
+    "intro": "Au-Some Teacher ABA Services helps children build communication, independence, social skills, and confidence through individualized care at home."
+  },
+  "/services": {
+    "title": "ABA Therapy Services in Spring, TX | Au-Some Teacher",
+    "description": "Explore in-home ABA therapy, parent training, assessments, and school collaboration from Au-Some Teacher ABA Services in the Greater Houston area.",
+    "heading": "ABA therapy and family support services",
+    "intro": "Explore individualized therapy, caregiver coaching, assessments, and school collaboration for children and families in the Greater Houston area."
+  },
+  "/services/aba-therapy": {
+    "title": "In-Home ABA Therapy in Spring, TX | Au-Some Teacher",
+    "description": "Individualized, BCBA-led in-home ABA therapy for children in Spring and North Houston. Build communication, daily living, social, and safety skills.",
+    "heading": "In-home ABA therapy built around your child and family",
+    "intro": "Our BCBA-led programs help children build practical skills where daily life happens, with family collaboration and ongoing progress monitoring."
+  },
+  "/services/parent-training": {
+    "title": "ABA Parent Training in Spring, TX | Au-Some Teacher",
+    "description": "Practical ABA parent and caregiver training for daily routines, communication, transitions, and skill building at home in the Spring, Texas area.",
+    "heading": "Parent and caregiver training for everyday life",
+    "intro": "Work with a BCBA to practice strategies for meals, bedtime, play, transitions, schoolwork, and community routines."
+  },
+  "/services/assessments": {
+    "title": "ABA Assessments in Spring, TX | Au-Some Teacher",
+    "description": "Learn how Au-Some Teacher's ABA assessments use caregiver input, observation, and skill information to guide individualized treatment planning.",
+    "heading": "ABA assessments that guide individualized care",
+    "intro": "A BCBA brings together family priorities, direct observation, and records to develop meaningful treatment goals. This is a treatment assessment, not an autism diagnosis."
+  },
+  "/services/school-collaboration": {
+    "title": "ABA School Collaboration | Au-Some Teacher Spring, TX",
+    "description": "With family permission, Au-Some Teacher collaborates with educators and providers to help children use skills across home, school, and daily life.",
+    "heading": "School collaboration centered on the child",
+    "intro": "With family permission and when appropriate, our team shares relevant strategies and listens to educators to support consistent skill use."
+  },
+  "/insurance": {
+    "title": "ABA Insurance Verification in Spring, TX | Au-Some Teacher",
+    "description": "Ask Au-Some Teacher to verify ABA therapy benefits and explain authorization steps. Coverage and availability depend on your individual insurance plan.",
+    "heading": "Get help understanding your ABA therapy benefits",
+    "intro": "Our team helps families review benefits and understand the next steps before services begin. Coverage varies by plan."
+  },
+  "/about": {
+    "title": "About Au-Some Teacher ABA Services | Spring, TX",
+    "description": "Meet Au-Some Teacher ABA Services, a family-centered, BCBA-led provider of in-home ABA therapy serving Spring and nearby North Houston communities.",
+    "heading": "About Au-Some Teacher ABA Services",
+    "intro": "Our mission is to help children build meaningful skills while supporting the families, teachers, and communities around them."
+  },
+  "/careers": {
+    "title": "ABA Careers and RBT Jobs in Spring, TX | Au-Some Teacher",
+    "description": "Explore careers with Au-Some Teacher ABA Services in the Spring, Texas area and learn about our family-centered ABA team and available roles.",
+    "heading": "Build a career helping children thrive",
+    "intro": "Learn about opportunities to join the Au-Some Teacher ABA Services team in the Spring, Texas area."
+  },
+  "/become-a-client": {
+    "title": "Become an ABA Client in Spring, TX | Au-Some Teacher",
+    "description": "Contact Au-Some Teacher about in-home ABA therapy in Spring and North Houston. Tell us about your family's needs and ask about availability and insurance.",
+    "heading": "Get started with in-home ABA therapy",
+    "intro": "Share your family's needs and our team will help you understand availability, insurance, assessment, and next steps."
+  },
+  "/employees": {
+    "title": "Employee Resources | Au-Some Teacher",
+    "description": "Resources for Au-Some Teacher team members.",
+    "heading": "Employee resources",
+    "intro": "This page is intended for Au-Some Teacher team members.",
+    "noindex": true
+  }
+}

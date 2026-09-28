@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "@/App.css";
 import {
-  HashRouter,
+  BrowserRouter,
   Routes,
   Route,
   Link,
@@ -23,6 +23,40 @@ import { Textarea } from "@/components/ui/textarea";
 import { Toaster, toast } from "@/components/ui/sonner";
 import * as Icons from "lucide-react";
 import Employees from "./pages/Employees";
+import seoPages from "./seo-pages.json";
+
+const SITE_URL = "https://au-someteacher.com";
+
+function RouteSEO() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    const path = pathname.replace(/\/$/, "") || "/";
+    const page = seoPages[path] || {
+      title: "Page Not Found | Au-Some Teacher",
+      description: "Explore ABA therapy services from Au-Some Teacher.",
+      noindex: true,
+    };
+    const canonical = `${SITE_URL}${path}`;
+    document.title = page.title;
+    const updateMeta = (selector, attributes) => {
+      let element = document.head.querySelector(selector);
+      if (!element) {
+        element = document.createElement(attributes.href ? "link" : "meta");
+        document.head.appendChild(element);
+      }
+      Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+    };
+    updateMeta('meta[name="description"]', { name: "description", content: page.description });
+    updateMeta('meta[name="robots"]', { name: "robots", content: page.noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large" });
+    updateMeta('link[rel="canonical"]', { rel: "canonical", href: canonical });
+    updateMeta('meta[property="og:title"]', { property: "og:title", content: page.title });
+    updateMeta('meta[property="og:description"]', { property: "og:description", content: page.description });
+    updateMeta('meta[property="og:url"]', { property: "og:url", content: canonical });
+    updateMeta('meta[name="twitter:title"]', { name: "twitter:title", content: page.title });
+    updateMeta('meta[name="twitter:description"]', { name: "twitter:description", content: page.description });
+  }, [pathname]);
+  return null;
+}
 
 const GOOGLE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbxB1fXiDyfEPSgySoJg7RAIxWTDoPRwKOPzZu7VZWXR3KZodJ7-cu3bSkE8rzJfqw6h/exec";
@@ -2809,6 +2843,7 @@ function Footer() {
 function AppShell() {
   return (
     <>
+      <RouteSEO />
       <ScrollToTop />
       <Header />
       <Routes>
@@ -2836,9 +2871,9 @@ function AppShell() {
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <AppShell />
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 export default App;

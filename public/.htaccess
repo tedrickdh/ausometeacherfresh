@@ -2,6 +2,11 @@
   RewriteEngine On
   RewriteBase /
 
+  # Serve unique HTML for each public route while keeping clean URLs.
+  RewriteRule ^_seo/ - [L]
+  RewriteCond %{DOCUMENT_ROOT}/_seo/$1.html -f
+  RewriteRule ^(.+?)/?$ _seo/$1.html [L]
+
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]

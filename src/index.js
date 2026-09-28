@@ -7,6 +7,12 @@ import App from "./App.js";
 
 const QUERY_STALE_TIME_MS = 60_000;
 
+// Keep previously shared #/ links working after moving to crawlable paths.
+if (window.location.hash.startsWith("#/")) {
+  const oldPath = window.location.hash.slice(1);
+  window.history.replaceState(null, "", `${oldPath}${window.location.search}`);
+}
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
