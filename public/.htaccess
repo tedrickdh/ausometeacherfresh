@@ -8,7 +8,7 @@
   RewriteRule ^httpswwwau-someteachercom/?$ https://au-someteacher.com/insurance [R=301,L,NC]
 
   # Consolidate the www and non-www versions under the canonical domain.
-  RewriteCond %{HTTP_HOST} ^www\\.au-someteacher\\.com$ [NC]
+  RewriteCond %{HTTP_HOST} ^www\.au-someteacher\.com$ [NC]
   RewriteRule ^ https://au-someteacher.com%{REQUEST_URI} [R=301,L,NE]
 
   # Serve unique HTML for each public route while keeping clean URLs.
