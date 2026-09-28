@@ -2,6 +2,15 @@
   RewriteEngine On
   RewriteBase /
 
+  # Moved pages from the earlier website. Send old search results to their match.
+  RewriteRule ^aba-therapy-services/?$ https://au-someteacher.com/services/aba-therapy [R=301,L,NC]
+  RewriteRule ^aba-therapy-waitlist-signup/?$ https://au-someteacher.com/become-a-client [R=301,L,NC]
+  RewriteRule ^httpswwwau-someteachercom/?$ https://au-someteacher.com/insurance [R=301,L,NC]
+
+  # Consolidate the www and non-www versions under the canonical domain.
+  RewriteCond %{HTTP_HOST} ^www\\.au-someteacher\\.com$ [NC]
+  RewriteRule ^ https://au-someteacher.com%{REQUEST_URI} [R=301,L,NE]
+
   # Serve unique HTML for each public route while keeping clean URLs.
   RewriteRule ^_seo/ - [L]
   RewriteCond %{DOCUMENT_ROOT}/_seo/$1.html -f
