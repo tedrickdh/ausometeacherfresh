@@ -65,5 +65,11 @@
     "heading": "Employee resources",
     "intro": "This page is intended for Au-Some Teacher team members.",
     "noindex": true
+  },
+  "/pricing": {
+    "title": "ABA Services & BCBA Supervision Pricing | Au-Some Teacher",
+    "description": "View private-pay ABA services and assessments, $70/hour BCBA fieldwork supervision, and request custom school district quotes in Spring, Texas.",
+    "heading": "ABA services, assessments, and supervision pricing",
+    "intro": "Explore private-pay services, BCBA fieldwork supervision billed monthly, and school district quote requests."
   }
 }
