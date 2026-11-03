@@ -89,7 +89,6 @@ const serviceAreas = [
 const navItems = [
   { label: "Home", path: "/" },
   { label: "Insurance", path: "/insurance" },
-  { label: "Pricing", path: "/pricing" },
   { label: "About Us", path: "/about" },
   { label: "Careers", path: "/careers" },
   { label: "Employees", path: "/employees" },
@@ -2841,63 +2840,6 @@ function Footer() {
   );
 }
 
-function PricingPage() {
-  const familyRates = [
-    ["Direct ABA Therapy (RBT)", "$90/hour"],
-    ["BCBA Clinical Supervision", "$150/hour"],
-    ["Parent & Caregiver Training", "$130/hour"],
-    ["Functional Behavior Assessment Consultation", "$180/hour"],
-    ["School Consultation & Advocacy", "$150/hour"],
-    ["IEP/ARD Meeting Support", "$150/hour"],
-    ["Social Skills Groups", "$60–$75/session"],
-  ];
-  const assessments = [
-    ["Functional Assessment", "Starting at $1,500"],
-    ["Comprehensive ABA Assessment", "$2,000–$2,500"],
-    ["School + Home Assessment", "$2,500–$4,000"],
-    ["Expedited Assessment Report", "Additional $250–$500"],
-  ];
-  const districts = ["Functional Behavior Assessments (FBAs)", "Behavior Intervention Plans (BIPs)", "School-Based Behavior Consultation", "Staff Training & Professional Development", "Organizational Supervision"];
-  return (
-    <main className="bg-slate min-h-screen">
-      <section className="bg-navy px-4 py-20 text-center text-white md:py-28">
-        <p className="font-semibold uppercase tracking-widest text-gold">Transparent pricing</p>
-        <h1 className="mx-auto mt-4 max-w-4xl font-display text-4xl font-bold md:text-6xl">Services & Pricing</h1>
-        <p className="mx-auto mt-5 max-w-2xl text-white/80">Explore private-pay services, assessments, and professional supervision. School and district services are quoted individually.</p>
-      </section>
-      <div className="mx-auto max-w-6xl space-y-12 px-4 py-16 md:px-8">
-        <section className="rounded-3xl bg-white p-6 shadow-sm md:p-10">
-          <h2 className="font-display text-3xl font-semibold text-navy">Private-Pay Family Services</h2>
-          <p className="mt-3 text-navy/70">Rates below are for private-pay services. Insurance coverage, authorizations, and out-of-pocket costs vary by plan.</p>
-          <div className="mt-6 divide-y divide-navy/10">{familyRates.map(([name, rate]) => <div key={name} className="flex flex-wrap justify-between gap-3 py-4"><span className="text-navy">{name}</span><strong className="text-teal">{rate}</strong></div>)}</div>
-          <Link to="/become-a-client" className="mt-6 inline-block rounded-full bg-teal px-6 py-3 font-bold text-white">Request a Consultation</Link>
-        </section>
-        <section className="rounded-3xl bg-white p-6 shadow-sm md:p-10">
-          <h2 className="font-display text-3xl font-semibold text-navy">Assessment Packages</h2>
-          <p className="mt-3 text-navy/70">Final scope and cost depend on the assessment needs and setting.</p>
-          <div className="mt-6 divide-y divide-navy/10">{assessments.map(([name, rate]) => <div key={name} className="flex flex-wrap justify-between gap-3 py-4"><span className="text-navy">{name}</span><strong className="text-teal">{rate}</strong></div>)}</div>
-        </section>
-        <section id="supervision" className="rounded-3xl bg-white p-6 shadow-sm md:p-10">
-          <p className="font-bold uppercase tracking-widest text-teal">Professional growth</p>
-          <h2 className="mt-2 font-display text-3xl font-semibold text-navy">BCBA Fieldwork Supervision & Mentorship</h2>
-          <p className="mt-4 text-navy/75">Individualized supervision for aspiring behavior analysts, with special attention to school-based practice, ethics, assessment, intervention planning, data analysis, and collaboration with educational teams.</p>
-          <div className="mt-7 rounded-2xl bg-slate p-6"><p className="text-navy/70">Individual fieldwork supervision</p><p className="mt-1 font-display text-4xl font-bold text-navy">$70<span className="text-lg font-medium">/hour</span></p><p className="mt-3 text-navy/70">Billed monthly based on actual supervision hours. No fixed monthly package required.</p></div>
-          <p className="mt-5 font-semibold text-navy">Free 30-minute initial consultation</p>
-          <p className="mt-3 text-sm leading-relaxed text-navy/70">Qualifying fieldwork must meet applicable BACB requirements. Classroom-based fieldwork may require written school district authorization, appropriate client oversight, and privacy safeguards. Supervision availability and eligibility are confirmed before an agreement is signed.</p>
-          <a href="mailto:info@au-someteacher.com?subject=BCBA%20Fieldwork%20Supervision%20Consultation" className="mt-6 inline-block rounded-full bg-teal px-6 py-3 font-bold text-white">Request Supervision Consultation</a>
-        </section>
-        <section className="rounded-3xl bg-white p-6 shadow-sm md:p-10">
-          <h2 className="font-display text-3xl font-semibold text-navy">Schools & Districts</h2>
-          <p className="mt-3 text-navy/70">We develop customized proposals based on campus needs, project scope, and timelines.</p>
-          <ul className="mt-6 grid gap-3 md:grid-cols-2">{districts.map(name => <li key={name} className="rounded-xl bg-slate px-4 py-3 text-navy">{name}</li>)}</ul>
-          <a href="mailto:info@au-someteacher.com?subject=School%20or%20District%20Quote%20Request" className="mt-7 inline-block rounded-full bg-teal px-6 py-3 font-bold text-white">Request a Quote</a>
-        </section>
-        <p className="text-center text-sm text-navy/65">Prices may vary with service scope and written agreement. Please contact us to confirm current availability and a personalized estimate.</p>
-      </div>
-    </main>
-  );
-}
-
 function AppShell() {
   return (
     <>
@@ -2915,7 +2857,6 @@ function AppShell() {
           />
         ))}
         <Route path="/insurance" element={<InsurancePage />} />
-        <Route path="/pricing" element={<PricingPage />} />
         <Route path="/employees" element={<Employees />} />
         <Route path="/about" element={<AboutPage />} />
 
