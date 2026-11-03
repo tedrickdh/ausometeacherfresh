@@ -26,17 +26,30 @@ jobs:
       - name: Build React App
         run: npm run build
 
-      - name: Deploy to Hostinger
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
-          port: 21
-          local-dir: build/
-          server-dir: /public_html/
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
+      - name: Upload build to Hostinger
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          test -s build/index.html
+          test -s build/_seo/pricing.html
+
+          cd build
+          upload() {
+            curl --silent --show-error --fail --ftp-create-dirs \
+              --connect-timeout 15 --max-time 90 --retry 3 --retry-all-errors \
+              --user "$FTP_USERNAME:$FTP_PASSWORD" --upload-file "$1" \
+              "ftp://$FTP_SERVER:21//public_html/$1"
+          }
+
+          while IFS= read -r -d '' file; do
+            upload "${file#./}"
+          done < <(find . -type f ! -path ./index.html ! -path ./.htaccess -print0)
+          upload index.html
+          upload .htaccess
+
+      - name: Verify public pages
+        run: |
+          curl --fail --silent --show-error --location --retry 3 https://au-someteacher.com/ | grep -qi 'Au-Some Teacher'
+          curl --fail --silent --show-error --location --retry 3 https://au-someteacher.com/pricing | grep -qi 'supervision pricing'
