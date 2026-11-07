@@ -1554,6 +1554,9 @@ function RosalynPage() {
           <div className="mt-8" data-testid="rosalyn-speaking-cta">
             <a href={speakingMailto} className="inline-block rounded-full bg-teal px-6 py-3 font-bold text-white hover:bg-teal-dark" data-testid="rosalyn-speaking-book-button">
               Book Rosalyn to Speak
+            </a>{" "}
+            <a href="/rosalyn-holmes-speaker-sheet.pdf" target="_blank" rel="noopener noreferrer" className="inline-block rounded-full border-2 border-teal bg-white px-6 py-3 font-bold text-teal hover:bg-teal hover:text-white" data-testid="rosalyn-speaker-sheet-button">
+              Download Speaker Sheet (PDF)
             </a>
             <p className="mt-5 text-base font-semibold text-navy" data-testid="rosalyn-speaking-contact-note">
               Prefer email?{" "}
