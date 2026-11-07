@@ -1365,6 +1365,39 @@ function RosalynPage() {
     },
   ];
 
+  const speakingTopics = [
+    {
+      icon: Icons.Network,
+      title: "Connecting ABA Practice and Educational Systems",
+      copy: "Rosalyn's 2026 ABA in Color session: how clinic-based and school-based teams align around one shared plan for a student — shared language, shared data, and shared follow-through.",
+    },
+    {
+      icon: Icons.BookOpen,
+      title: "Beyond the Behavior Plan",
+      copy: "Drawn from her forthcoming book: why well-written behavior plans stall in real classrooms, and what makes them actually work — classroom reality, function-based thinking, collaboration, and measurement.",
+    },
+    {
+      icon: Icons.Link2,
+      title: "The BRIDGE Framework",
+      copy: "Rosalyn's framework for building working bridges between BCBAs, teachers, and families: Build, Relate, Implement, Develop, Grow, Evaluate — a practical sequence for turning separate efforts into one team approach.",
+    },
+    {
+      icon: Icons.ClipboardList,
+      title: "ARD & IEP Collaboration for Behavior Support",
+      copy: "From her experience as a district BCBA and former ARD facilitator: how behavior support is discussed, documented, and carried through the ARD and IEP process so school and home stay aligned.",
+    },
+  ];
+
+  const speakingFormats = [
+    "Conference sessions",
+    "District professional development",
+    "Half- and full-day trainings",
+    "Virtual presentations",
+  ];
+
+  const speakingMailto =
+    "mailto:info@au-someteacher.com?subject=Speaking%20Engagement%20Request%20%E2%80%94%20Rosalyn%20Holmes&body=Organization%3A%0D%0AEvent%20date%3A%0D%0ALocation%20or%20virtual%3A%0D%0AAudience%3A%0D%0ATopic%20of%20interest%3A%0D%0AEstimated%20group%20size%3A";
+
   return (
     <main data-testid="rosalyn-page-main">
       <Helmet>
@@ -1477,6 +1510,57 @@ function RosalynPage() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+          <p className="mt-10 text-base font-semibold text-navy" data-testid="rosalyn-beyond-speaking-link">
+            <a href="#speaking" className="inline-flex items-center gap-2 text-teal hover:underline">
+              See speaking topics <Icons.ArrowDown className="h-4 w-4" />
+            </a>
+          </p>
+        </div>
+      </section>
+
+      <section id="speaking" className="bg-slate py-20 md:py-32" data-testid="rosalyn-speaking-section">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="mb-12 max-w-3xl">
+            <SectionLabel testId="rosalyn-speaking-eyebrow">Speaking &amp; Training</SectionLabel>
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-navy md:text-5xl" data-testid="rosalyn-speaking-title">
+              Book Rosalyn to speak or train
+            </h2>
+            <p className="mt-6 text-base leading-relaxed text-navy/75 md:text-lg" data-testid="rosalyn-speaking-intro">
+              Rosalyn speaks and trains at the intersection of ABA and education — for school districts, campuses, conferences, and professional groups, in person across the Houston area and virtually.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2">
+            {speakingTopics.map((item, index) => (
+              <Card key={item.title} className="rounded-[1.75rem] border-navy/5 bg-white p-8 shadow-none" data-testid={`rosalyn-speaking-card-${index + 1}`}>
+                <CardContent className="p-0">
+                  <item.icon className="mb-6 h-8 w-8 text-teal" />
+                  <h3 className="font-display text-xl font-semibold text-navy" data-testid={`rosalyn-speaking-card-${index + 1}-title`}>{item.title}</h3>
+                  <p className="mt-3 text-base leading-relaxed text-navy/70" data-testid={`rosalyn-speaking-card-${index + 1}-copy`}>{item.copy}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <div className="mt-10 flex flex-wrap gap-3" data-testid="rosalyn-speaking-formats">
+            {speakingFormats.map((format) => (
+              <span key={format} className="rounded-full border border-navy/10 bg-white px-4 py-2 text-sm font-bold text-navy">
+                {format}
+              </span>
+            ))}
+          </div>
+          <p className="mt-6 max-w-3xl text-base leading-relaxed text-navy/75" data-testid="rosalyn-speaking-audience">
+            Professional learning designed for BCBAs, educators, and school teams — tailored to your audience, setting, and goals.
+          </p>
+          <div className="mt-8" data-testid="rosalyn-speaking-cta">
+            <a href={speakingMailto} className="inline-block rounded-full bg-teal px-6 py-3 font-bold text-white hover:bg-teal-dark" data-testid="rosalyn-speaking-book-button">
+              Book Rosalyn to Speak
+            </a>
+            <p className="mt-5 text-base font-semibold text-navy" data-testid="rosalyn-speaking-contact-note">
+              Prefer email?{" "}
+              <a href={contact.emailHref} className="text-teal hover:underline">{contact.email}</a>
+              {" "}·{" "}
+              <a href="tel:+13464618230" className="text-teal hover:underline">(346) 461-8230</a>
+            </p>
           </div>
         </div>
       </section>
