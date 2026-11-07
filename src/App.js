@@ -24,6 +24,7 @@ import { Toaster, toast } from "@/components/ui/sonner";
 import * as Icons from "lucide-react";
 import Employees from "./pages/Employees";
 import seoPages from "./seo-pages.json";
+import { Helmet } from "react-helmet-async";
 
 const SITE_URL = "https://au-someteacher.com";
 
@@ -795,6 +796,9 @@ function TeamSection() {
             <p className="mt-5 text-base leading-relaxed text-navy/75" data-testid="team-director-copy">
               Rosalyn leads Au-Some Teacher ABA Services with a commitment to compassionate, evidence-based care. Her approach blends behavioral science, educator insight, and a deep respect for every family&apos;s goals.
             </p>
+            <Button asChild className="mt-6 rounded-full bg-teal px-6 py-5 font-bold text-white hover:bg-teal-dark" data-testid="team-director-profile-button">
+              <Link to="/rosalyn-holmes">Meet Rosalyn Holmes <Icons.ArrowRight className="h-5 w-5" /></Link>
+            </Button>
           </div>
         </div>
       </div>
@@ -1261,6 +1265,248 @@ function AboutPage() {
   );
 }
 
+function RosalynPage() {
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Rosalyn Holmes",
+    jobTitle: "Founder & Clinical Director",
+    description:
+      "Founder and Clinical Director of Au-Some Teacher ABA Services. A BCBA with 23 years in special education, leading in-home ABA therapy in Spring and North Houston, Texas.",
+    image: assets.team,
+    url: `${SITE_URL}/rosalyn-holmes`,
+    email: contact.email,
+    telephone: "+1-346-461-8230",
+    worksFor: {
+      "@type": "Organization",
+      name: "Au-Some Teacher ABA Services",
+      url: SITE_URL,
+    },
+    hasCredential: [
+      {
+        "@type": "EducationalOccupationalCredential",
+        credentialCategory: "certification",
+        name: "Board Certified Behavior Analyst (BCBA)",
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        credentialCategory: "license",
+        name: "Licensed Behavior Analyst (LBA), Texas",
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        credentialCategory: "degree",
+        name: "M.A.Ed.",
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        credentialCategory: "degree",
+        name: "M.Ed.",
+      },
+    ],
+  };
+
+  const highlights = [
+    {
+      icon: Icons.GraduationCap,
+      title: "23 Years in Special Education",
+      copy: "More than two decades supporting children, families, and school teams across special education settings.",
+    },
+    {
+      icon: Icons.BadgeCheck,
+      title: "BCBA Since 2023",
+      copy: "A Board Certified Behavior Analyst and Texas Licensed Behavior Analyst who personally leads Au-Some Teacher's clinical care.",
+    },
+    {
+      icon: Icons.School,
+      title: "District BCBA, Aldine ISD",
+      copy: "Serves as a district BCBA with Aldine ISD, bringing behavior expertise to students, teachers, and campuses.",
+    },
+    {
+      icon: Icons.ClipboardCheck,
+      title: "Former ARD Facilitator",
+      copy: "Firsthand experience guiding ARD meetings and the IEP process, so school and home can plan as one team.",
+    },
+  ];
+
+  const approach = [
+    {
+      icon: Icons.HeartHandshake,
+      title: "Compassionate, family-centered care",
+      copy: "Every plan starts with listening. Rosalyn builds care around each family's goals, routines, and values — because progress at home starts with what matters most to the people who live there.",
+    },
+    {
+      icon: Icons.BookOpenCheck,
+      title: "Evidence-based practice",
+      copy: "Programs are grounded in behavioral science and shaped by ongoing data, so strategies are thoughtful, measurable, and adjusted as each child grows.",
+    },
+    {
+      icon: Icons.Users,
+      title: "One team around your child",
+      copy: "Caregivers are partners, not bystanders. Rosalyn collaborates with families and, with permission, with schools and other providers so skills carry across home, school, and daily life.",
+    },
+  ];
+
+  const beyond = [
+    {
+      icon: Icons.NotebookTabs,
+      title: "Author of Beyond the Behavior Plan",
+      copy: "Rosalyn is the author of Beyond the Behavior Plan, her forthcoming book on school-based behavior support, written for the educators and teams who support students every day.",
+    },
+    {
+      icon: Icons.Sparkles,
+      title: "ABA in Color Executive Committee",
+      copy: "She serves on the executive committee of ABA in Color, a professional community advancing equity through diverse leadership in applied behavior analysis.",
+    },
+    {
+      icon: Icons.MessagesSquare,
+      title: "Connecting ABA Practice and Educational Systems",
+      copy: "In 2026, Rosalyn presented “Connecting ABA Practice and Educational Systems,” sharing how clinical and school teams can work from the same page.",
+    },
+  ];
+
+  return (
+    <main data-testid="rosalyn-page-main">
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(personSchema)}</script>
+      </Helmet>
+
+      <section className="bg-slate py-20 md:py-32" data-testid="rosalyn-hero-section">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 md:grid-cols-[0.85fr_1.15fr] md:px-8">
+          <div className="overflow-hidden rounded-[2rem] bg-white p-2 shadow-xl shadow-navy/10">
+            <img
+              src={assets.team}
+              alt="Rosalyn Holmes, BCBA, Clinical Director"
+              className="aspect-[4/5] w-full rounded-[1.5rem] object-cover object-center"
+              data-testid="rosalyn-hero-image"
+            />
+          </div>
+          <div>
+            <SectionLabel testId="rosalyn-hero-eyebrow">Founder &amp; Clinical Director</SectionLabel>
+            <h1 className="font-display text-4xl font-semibold tracking-tight text-navy sm:text-5xl lg:text-6xl" data-testid="rosalyn-hero-title">
+              Rosalyn Holmes, BCBA, LBA
+            </h1>
+            <p className="mt-4 text-lg font-bold text-teal" data-testid="rosalyn-credentials">
+              M.A.Ed., M.Ed., BCBA, LBA-TX
+            </p>
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-navy/75 md:text-lg" data-testid="rosalyn-hero-text">
+              Rosalyn Holmes is the founder and clinical director of Au-Some Teacher ABA Services. With 23 years in special education, she leads clinical care for in-home ABA therapy across Spring and North Houston — blending behavioral science, educator insight, and a deep respect for every family&apos;s goals.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row" data-testid="rosalyn-cta-group">
+              <Button asChild className="rounded-full bg-teal px-8 py-6 font-bold text-white hover:bg-teal-dark" data-testid="rosalyn-become-client-button">
+                <Link to="/become-a-client">Become a Client</Link>
+              </Button>
+              <Button asChild variant="outline" className="rounded-full border-navy/15 bg-white px-8 py-6 font-bold text-navy hover:bg-white" data-testid="rosalyn-school-support-button">
+                <Link to="/services/school-collaboration">School &amp; District Support</Link>
+              </Button>
+            </div>
+            <div className="mt-8 flex flex-col gap-3 text-base font-semibold text-navy sm:flex-row sm:gap-8" data-testid="rosalyn-contact-links">
+              <a href="tel:+13464618230" className="inline-flex items-center gap-2 hover:text-teal" data-testid="rosalyn-phone-link">
+                <Icons.PhoneCall className="h-5 w-5 text-teal" /> (346) 461-8230
+              </a>
+              <a href={contact.emailHref} className="inline-flex items-center gap-2 hover:text-teal" data-testid="rosalyn-email-link">
+                <Icons.MessageSquareText className="h-5 w-5 text-teal" /> {contact.email}
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-20 md:py-32" data-testid="rosalyn-experience-section">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="mb-12 max-w-3xl">
+            <SectionLabel testId="rosalyn-experience-eyebrow">Experience</SectionLabel>
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-navy md:text-5xl" data-testid="rosalyn-experience-title">
+              Experience that bridges school and home.
+            </h2>
+            <p className="mt-6 text-base leading-relaxed text-navy/75 md:text-lg" data-testid="rosalyn-experience-copy">
+              Rosalyn&apos;s career has lived on both sides of the table — in classrooms and ARD meetings as an educator, and in family homes as a BCBA. That dual perspective shapes how Au-Some Teacher practices: treatment plans that respect the realities of school, goals that make sense in the IEP context, and communication that keeps educators and caregivers working from the same understanding of a child.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {highlights.map((item, index) => (
+              <Card key={item.title} className="rounded-[1.75rem] border-navy/5 bg-slate p-8 shadow-none" data-testid={`rosalyn-highlight-card-${index + 1}`}>
+                <CardContent className="p-0">
+                  <item.icon className="mb-6 h-8 w-8 text-teal" />
+                  <h3 className="font-display text-xl font-semibold text-navy" data-testid={`rosalyn-highlight-card-${index + 1}-title`}>{item.title}</h3>
+                  <p className="mt-3 text-base leading-relaxed text-navy/70" data-testid={`rosalyn-highlight-card-${index + 1}-copy`}>{item.copy}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-slate py-20 md:py-32" data-testid="rosalyn-approach-section">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="mb-12 max-w-3xl">
+            <SectionLabel testId="rosalyn-approach-eyebrow">Her approach</SectionLabel>
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-navy md:text-5xl" data-testid="rosalyn-approach-title">
+              Care that starts with listening.
+            </h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {approach.map((item, index) => (
+              <Card key={item.title} className="rounded-[1.75rem] border-navy/5 bg-white p-8 shadow-none" data-testid={`rosalyn-approach-card-${index + 1}`}>
+                <CardContent className="p-0">
+                  <item.icon className="mb-6 h-8 w-8 text-teal" />
+                  <h3 className="font-display text-xl font-semibold text-navy" data-testid={`rosalyn-approach-card-${index + 1}-title`}>{item.title}</h3>
+                  <p className="mt-3 text-base leading-relaxed text-navy/70" data-testid={`rosalyn-approach-card-${index + 1}-copy`}>{item.copy}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-20 md:py-32" data-testid="rosalyn-beyond-section">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="mb-12 max-w-3xl">
+            <SectionLabel testId="rosalyn-beyond-eyebrow">Beyond the clinic</SectionLabel>
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-navy md:text-5xl" data-testid="rosalyn-beyond-title">
+              Writing, presenting, and building community.
+            </h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {beyond.map((item, index) => (
+              <Card key={item.title} className="rounded-[1.75rem] border-navy/5 bg-slate p-8 shadow-none" data-testid={`rosalyn-beyond-card-${index + 1}`}>
+                <CardContent className="p-0">
+                  <item.icon className="mb-6 h-8 w-8 text-teal" />
+                  <h3 className="font-display text-xl font-semibold text-navy" data-testid={`rosalyn-beyond-card-${index + 1}-title`}>{item.title}</h3>
+                  <p className="mt-3 text-base leading-relaxed text-navy/70" data-testid={`rosalyn-beyond-card-${index + 1}-copy`}>{item.copy}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white px-4 pb-20 md:px-8 md:pb-28" data-testid="rosalyn-cta-section">
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-navy p-8 text-white md:p-14">
+          <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
+            <div>
+              <p className="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-gold" data-testid="rosalyn-cta-eyebrow">Start the conversation</p>
+              <h2 className="font-display text-3xl font-semibold tracking-tight md:text-5xl" data-testid="rosalyn-cta-title">Work with Rosalyn and her team.</h2>
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/70" data-testid="rosalyn-cta-copy">
+                Whether you are a family exploring in-home ABA therapy or a school team looking for behavior support, reach out at{" "}
+                <a href="tel:+13464618230" className="font-semibold text-white underline hover:text-gold">(346) 461-8230</a> or{" "}
+                <a href={contact.emailHref} className="font-semibold text-white underline hover:text-gold">{contact.email}</a>.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button asChild className="rounded-full bg-teal px-8 py-6 font-bold text-white hover:bg-teal-dark" data-testid="rosalyn-cta-become-client-button">
+                <Link to="/become-a-client">Become a Client</Link>
+              </Button>
+              <Button asChild variant="outline" className="rounded-full border-white/20 bg-white px-8 py-6 font-bold text-navy hover:bg-slate" data-testid="rosalyn-cta-school-button">
+                <Link to="/services/school-collaboration">School &amp; District Support</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
 
 const careerBenefits = [
   {
@@ -2823,6 +3069,7 @@ function Footer() {
               <Link key={item.path} to={item.path} className="text-sm text-white/70 hover:text-white" data-testid={`footer-nav-${item.label.toLowerCase().replaceAll(" ", "-")}-link`}>{item.label}</Link>
             ))}
             <Link to="/become-a-client" className="text-sm text-white/70 hover:text-white" data-testid="footer-become-client-link">Become a Client</Link>
+            <Link to="/rosalyn-holmes" className="text-sm text-white/70 hover:text-white" data-testid="footer-rosalyn-link">Meet Our Founder</Link>
           </div>
         </div>
         <div>
@@ -2918,7 +3165,7 @@ function AppShell() {
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/employees" element={<Employees />} />
         <Route path="/about" element={<AboutPage />} />
-
+        <Route path="/rosalyn-holmes" element={<RosalynPage />} />
         <Route path="/careers" element={<Careers />} />
         <Route path="/become-a-client" element={<BecomeClientPage />} />
       </Routes>
