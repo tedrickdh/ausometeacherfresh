@@ -74,6 +74,10 @@ const assets = {
   services: "https://images.pexels.com/photos/4934170/pexels-photo-4934170.jpeg",
   careers: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg",
   about: "https://images.pexels.com/photos/8363095/pexels-photo-8363095.jpeg",
+  carouselConnection: "/images/rosalyn/connection-first.jpg",
+  carouselCheering: "/images/rosalyn/cheering-them-on.jpg",
+  carouselClassroom: "/images/rosalyn/in-the-classroom.jpg",
+  carouselBus: "/images/rosalyn/every-moment-teaches.jpg",
 };
 const HIRING_OPEN = true;
 
@@ -1265,6 +1269,45 @@ function AboutPage() {
   );
 }
 
+function RosalynCarousel() {
+  const slides = [
+    { src: assets.carouselConnection, alt: "Rosalyn Holmes hugging two students at a school field day during her school years — children pictured are fictional stand-ins for privacy",
+      title: "Connection First", copy: "Trust is the foundation of every program Rosalyn builds — earned one moment at a time." },
+    { src: assets.carouselCheering, alt: "Rosalyn Holmes watching a student ride a tricycle at field day during her school years — children pictured are fictional stand-ins for privacy",
+      title: "Cheering Them On", copy: "Field day at school: independence, courage, and a whole team rooting for every child." },
+    { src: assets.carouselClassroom, alt: "Rosalyn Holmes in an elementary school classroom during her school years — children pictured are fictional stand-ins for privacy",
+      title: "In the Classroom", copy: "Music, movement, and structure woven into the school day — learning that meets kids where they are." },
+    { src: assets.carouselBus, alt: "Rosalyn Holmes riding a school bus with students during her school years — children pictured are fictional stand-ins for privacy",
+      title: "Every Moment Teaches", copy: "Bus rides, transitions, and trips out in the community are part of the learning, too." },
+  ];
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setIndex(i => (i + 1) % slides.length), 5000);
+    return () => clearInterval(t);
+  }, [slides.length]);
+  const go = d => setIndex(i => (i + d + slides.length) % slides.length);
+  const slide = slides[index];
+  return (
+    <div className="relative overflow-hidden rounded-[2rem] shadow-xl shadow-navy/10" data-testid="rosalyn-carousel">
+      <img src={slide.src} alt={slide.alt} className="aspect-[16/10] w-full object-cover" data-testid="rosalyn-carousel-image" />
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/85 to-transparent px-7 pb-6 pt-16 text-white">
+        <h3 className="font-display text-2xl font-semibold">{slide.title}</h3>
+        <p className="mt-1 text-white/85">{slide.copy}</p>
+      </div>
+      <button onClick={() => go(-1)} aria-label="Previous photo" data-testid="rosalyn-carousel-prev"
+        className="absolute left-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-2xl text-navy shadow hover:bg-white">‹</button>
+      <button onClick={() => go(1)} aria-label="Next photo" data-testid="rosalyn-carousel-next"
+        className="absolute right-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-2xl text-navy shadow hover:bg-white">›</button>
+      <div className="absolute bottom-5 right-6 flex gap-2">
+        {slides.map((s, i) => (
+          <button key={s.title} onClick={() => setIndex(i)} aria-label={`Go to slide ${i + 1}`}
+            className={`h-2.5 w-2.5 rounded-full ${i === index ? "bg-teal" : "bg-white/50"}`} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function RosalynPage() {
   const personSchema = {
     "@context": "https://schema.org",
@@ -1324,8 +1367,8 @@ function RosalynPage() {
     },
     {
       icon: Icons.ClipboardCheck,
-      title: "Former ARD Facilitator",
-      copy: "Firsthand experience guiding ARD meetings and the IEP process, so school and home can plan as one team.",
+      title: "Former ARD/IEP Facilitator",
+      copy: "Firsthand experience guiding ARD/IEP meetings and the IEP process, so school and home can plan as one team.",
     },
   ];
 
@@ -1384,7 +1427,7 @@ function RosalynPage() {
     {
       icon: Icons.ClipboardList,
       title: "ARD & IEP Collaboration for Behavior Support",
-      copy: "From her experience as a district BCBA and former ARD facilitator: how behavior support is discussed, documented, and carried through the ARD and IEP process so school and home stay aligned.",
+      copy: "From her experience as a district BCBA and former ARD/IEP facilitator: how behavior support is discussed, documented, and carried through the ARD and IEP process so school and home stay aligned.",
     },
   ];
 
@@ -1453,7 +1496,7 @@ function RosalynPage() {
               Experience that bridges school and home.
             </h2>
             <p className="mt-6 text-base leading-relaxed text-navy/75 md:text-lg" data-testid="rosalyn-experience-copy">
-              Rosalyn&apos;s career has lived on both sides of the table — in classrooms and ARD meetings as an educator, and in family homes as a BCBA. That dual perspective shapes how Au-Some Teacher practices: treatment plans that respect the realities of school, goals that make sense in the IEP context, and communication that keeps educators and caregivers working from the same understanding of a child.
+              Rosalyn&apos;s career has lived on both sides of the table — in classrooms and ARD/IEP meetings as an educator, and in family homes as a BCBA. That dual perspective shapes how Au-Some Teacher practices: treatment plans that respect the realities of school, goals that make sense in the IEP context, and communication that keeps educators and caregivers working from the same understanding of a child.
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -1467,6 +1510,24 @@ function RosalynPage() {
               </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="bg-slate py-20 md:py-32" data-testid="rosalyn-at-work-section">
+        <div className="mx-auto max-w-5xl px-4 md:px-8">
+          <div className="mb-12 text-center">
+            <SectionLabel testId="rosalyn-at-work-eyebrow">In the Field</SectionLabel>
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-navy md:text-5xl" data-testid="rosalyn-at-work-title">
+              Rosalyn at Work
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-navy/75 md:text-lg">
+              Real moments from Rosalyn&apos;s years in special education classrooms and schools — the experience she now brings to every Au-Some Teacher family.
+            </p>
+          </div>
+          <RosalynCarousel />
+          <p className="mx-auto mt-6 max-w-2xl text-center text-sm leading-relaxed text-navy/60" data-testid="rosalyn-at-work-disclosure">
+            Photos from Rosalyn&apos;s school years. To protect her students&apos; privacy, the children pictured are fictional stand-ins; Rosalyn and the moments are real.
+          </p>
         </div>
       </section>
 
