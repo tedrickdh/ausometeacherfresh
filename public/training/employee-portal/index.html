@@ -8,7 +8,7 @@
 <section id="app" hidden><div class="panel"><h1>My training</h1><p id="welcome"></p><button id="logout">Sign out</button><div id="myCourses"></div></div>
 <section class="panel" id="admin" hidden><h2>Administrator dashboard</h2><div class="cards" id="stats"></div><h3>Assign training</h3><form id="assignForm"><label>Employee account ID <input id="employeeId" type="text" placeholder="Employee UUID" required></label><label>Due date <input id="due" type="date"></label><button>Assign course</button></form><h3>Assignment roster</h3><div style="overflow:auto"><table><thead><tr><th>Employee</th><th>Assigned</th><th>Due</th><th>Progress</th><th>Best score</th><th>Status</th></tr></thead><tbody id="roster"></tbody></table></div><button id="export">Export CSV</button></section></section>
 <p id="status" role="status" aria-live="polite"></p></main>
-<script type="module">
+<script src="./config.js"></script>\n<script type="module">
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2.49.10';
 const config=window.AUSOME_TRAINING_CONFIG||{};
 const $=id=>document.getElementById(id);
