@@ -1,0 +1,1 @@
+// Public configuration only. Never put Supabase secret or service_role keys here.\nwindow.AUSOME_TRAINING_CONFIG = {url:"",publishableKey:""};\n
