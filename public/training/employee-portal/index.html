@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Employee Training | Au-Some Teacher</title>
+<style>body{font:16px/1.5 system-ui,Arial;background:#f4f7fa;color:#18314b;margin:0}header{background:#17324c;color:white;padding:20px}main{max-width:1000px;margin:25px auto;padding:15px}.panel{background:white;border:1px solid #dbe3ec;border-radius:12px;padding:22px;margin:15px 0}input,button{padding:11px;border-radius:7px;font:inherit;margin:4px}input{border:1px solid #9eaebe}button{background:#007d82;color:white;border:0;cursor:pointer}button:disabled{opacity:.5}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid #ddd;text-align:left;padding:10px}th{background:#edf4f6}.muted{color:#516778}.error{color:#9d2020}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.cards>div{background:#eef6f6;padding:18px;border-radius:9px}.cards strong{display:block;font-size:25px}a{color:#006c76}</style></head>
+<body><header><strong>Au-Some Teacher</strong> · Employee Training</header><main>
+<section class="panel" id="setup"><h1>Employee Training Portal</h1><p>This portal is being configured. Employees will sign in with their assigned account.</p></section>
+<section class="panel" id="login" hidden><h2>Employee sign-in</h2><form id="loginForm"><label>Email <input id="email" type="email" autocomplete="username" required></label><label>Password <input id="password" type="password" autocomplete="current-password" required></label><button>Sign in</button></form></section>
+<section id="app" hidden><div class="panel"><h1>My training</h1><p id="welcome"></p><button id="logout">Sign out</button><div id="myCourses"></div></div>
+<section class="panel" id="admin" hidden><h2>Administrator dashboard</h2><div class="cards" id="stats"></div><h3>Assign training</h3><form id="assignForm"><label>Employee account ID <input id="employeeId" type="text" placeholder="Employee UUID" required></label><label>Due date <input id="due" type="date"></label><button>Assign course</button></form><h3>Assignment roster</h3><div style="overflow:auto"><table><thead><tr><th>Employee</th><th>Assigned</th><th>Due</th><th>Progress</th><th>Best score</th><th>Status</th></tr></thead><tbody id="roster"></tbody></table></div><button id="export">Export CSV</button></section></section>
+<p id="status" role="status" aria-live="polite"></p></main>
+<script type="module">
+import {createClient} from 'https://esm.sh/@supabase/supabase-js@2.49.10';
+const config=window.AUSOME_TRAINING_CONFIG||{};
+const $=id=>document.getElementById(id);
+const status=(message,error=false)=>{$('status').textContent=message;$('status').className=error?'error':''};
+const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const courseId='beyond-the-behavior-plan';
+if(!config.url||!config.publishableKey){status('Training portal is not configured yet.');}
+else{
+ $('setup').hidden=true;
+ const db=createClient(config.url,config.publishableKey);
+ let rosterRows=[];
+ const get=(table)=>db.from(table).select('*');
+ async function load(){
+  const {data:{user},error}=await db.auth.getUser();
+  if(error||!user){$('login').hidden=false;$('app').hidden=true;return}
+  $('login').hidden=true;$('app').hidden=false;$('welcome').textContent=user.email;
+  const {data:staff,error:staffErr}=await db.from('training_staff').select('full_name,active').eq('user_id',user.id).maybeSingle();
+  if(staffErr||!staff?.active){$('app').hidden=true;status('No active employee access. Contact your training administrator.',true);return}
+  const {data:mine,error:mineErr}=await db.from('training_assignments').select('id,assigned_at,due_at,completed_at').eq('user_id',user.id).eq('course_id',courseId);
+  if(mineErr){status(mineErr.message,true);return}
+  $('myCourses').innerHTML=(mine||[]).map(a=>'<p><strong>Beyond the Behavior Plan</strong> — '+(a.completed_at?'Completed':'Assigned')+' · Due: '+escape(a.due_at?.slice(0,10)||'Not set')+' <a href="/training/beyond-the-behavior-plan/">Open course</a></p>').join('')||'<p>No courses assigned yet.</p>';
+  const isAdmin=user.app_metadata?.training_admin===true||user.app_metadata?.training_admin==='true';
+  $('admin').hidden=!isAdmin;
+  if(isAdmin) await loadAdmin();
+ }
+ async function loadAdmin(){
+  const [assignments,staff,progress,attempts]=await Promise.all([get('training_assignments'),get('training_staff'),get('training_progress'),get('training_attempts')]);
+  const failure=[assignments,staff,progress,attempts].find(x=>x.error);if(failure){status(failure.error.message,true);return}
+  const people=new Map((staff.data||[]).map(s=>[s.user_id,s.full_name]));
+  rosterRows=(assignments.data||[]).filter(a=>a.course_id===courseId).map(a=>{
+   const p=(progress.data||[]).filter(x=>x.assignment_id===a.id);
+   const scores=(attempts.data||[]).filter(x=>x.assignment_id===a.id).map(x=>x.score);
+   return {employee:people.get(a.user_id)||a.user_id,assigned:a.assigned_at?.slice(0,10)||'',due:a.due_at?.slice(0,10)||'',progress:p.length+'/6 modules',score:scores.length?Math.max(...scores)+'%':'',status:a.completed_at?'Completed':p.length?'In progress':'Not started'};
+  });
+  const completed=rosterRows.filter(x=>x.status==='Completed').length;
+  const inProgress=rosterRows.filter(x=>x.status==='In progress').length;
+  $('stats').innerHTML=[['Assigned',rosterRows.length],['Completed',completed],['In progress',inProgress],['Not started',rosterRows.length-completed-inProgress]].map(([name,value])=>'<div><strong>'+value+'</strong>'+name+'</div>').join('');
+  $('roster').innerHTML=rosterRows.map(r=>'<tr>'+Object.values(r).map(v=>'<td>'+escape(v)+'</td>').join('')+'</tr>').join('');
+ }
+ $('loginForm').addEventListener('submit',async e=>{e.preventDefault();const {error}=await db.auth.signInWithPassword({email:$('email').value,password:$('password').value});if(error)status(error.message,true);else{status('');await load()}});
+ $('logout').addEventListener('click',async()=>{await db.auth.signOut();await load()});
+ $('assignForm').addEventListener('submit',async e=>{e.preventDefault();const {data:{user}}=await db.auth.getUser();const {error}=await db.from('training_assignments').insert({user_id:$('employeeId').value.trim(),course_id:courseId,assigned_by:user.id,due_at:$('due').value?$('due').value+'T23:59:59Z':null});status(error?error.message:'Training assigned.',!!error);if(!error)await loadAdmin()});
+ $('export').addEventListener('click',()=>{const cols=['employee','assigned','due','progress','score','status'];const csv=[cols.join(','),...rosterRows.map(r=>cols.map(c=>'"'+String(r[c]||'').replace(/"/g,'""')+'"').join(','))].join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='employee-training-report.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
+ await load();
+}
+</script></body></html>
